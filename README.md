@@ -27,3 +27,7 @@
 - `step`      the scroll step every time
 - `interval`  the scroll interval
 - `loop`      the scroll times, 0 is infinite
+
+## License
+
+MIT
