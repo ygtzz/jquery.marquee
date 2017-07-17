@@ -3,7 +3,7 @@
         var opts = $.extend({},$.fn.marquee.defaults, options);
         return this.each(function(){
             var $com = $(this);
-            var $scrollObj = $com.children(':first-child');
+            var $scrollObj = $com.children(':first-child'),
                 scrollW = $scrollObj.width(),
                 scrollH = $scrollObj.height(),
                 $children = $scrollObj.children(),
@@ -38,30 +38,32 @@
                 default:
                     throw new Error('not support direction');
             }
+            //先移除先前的timer，再开启新的timer
+            $.fn.marquee.removeScroll($com);
             var counter = 0;
             var timerId = setInterval(function(){
                 counter++;
                 if(opts.loop >0 && counter >= opts.loop){
                     clearInterval(timerId);
                 }
-                fScrollObj($scrollObj,step,dir,len);
+                fScrollObj($scrollObj,step,itemWidth,scrollH,dir,len);
             },opts.interval);
-            $com.data('timerid',timerId);
+            $com.attr('data-timerid',timerId);
         });
 
-        function fScrollObj($scrollObj,step,dir,len){
+        function fScrollObj($scrollObj,step,itemWidth,scrollH,dir,len){
             var aniObj = {};
             aniObj[dir] = '+=' + step;
-            $scrollObj.animate(aniObj,500,function(){
+            $scrollObj.animate(aniObj,opts.speed,function(){
                 switch(opts.direction){
                     case 'left':
-                        if(parseInt($scrollObj.css('marginLeft')) <= len*step){
+                        if(parseInt($scrollObj.css('marginLeft')) <= -len*itemWidth){
                             $scrollObj.css({marginLeft:0})
                         }
                         break;
                     case 'right':
                         if(parseInt($scrollObj.css('marginLeft')) >= 0){
-                            $scrollObj.css({marginLeft:-len*step})
+                            $scrollObj.css({marginLeft: -len*itemWidth})
                         }
                         break;
                     case 'up':
@@ -85,12 +87,13 @@
         "direction":'left',
         "step":'',
         "interval":3000,
+        "speed": 500,
         "loop":0
     }
 
     $.fn.marquee.removeScroll = function(comSelector){
         $(comSelector).each(function(i,item){
-            clearInterval($(item).data('timerid'));
+            clearInterval($(item).attr('data-timerid'));
         });
     }
 })(jQuery);

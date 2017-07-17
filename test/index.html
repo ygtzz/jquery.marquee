@@ -24,9 +24,9 @@
         <h3>向左滚动</h3>
         <div id="scroll1" class="scrollWrapper">
             <ul class="list fix">
-                <li class="item">第一回</li>
-                <li class="item">第二回</li>
-                <li class="item">第三回</li>
+                <li class="item">第一次</li>
+                <li class="item">第二次</li>
+                <li class="item">第三次</li>
             </ul>
         </div>
     </div>
@@ -63,24 +63,25 @@
     <script>
         $('#scroll1').marquee({
             direction:'left',
-            // step:58,
-            interval:3000,
-            loop:3
+            step:1,
+            interval:20,
+            speed:0
+            // loop:3
         });
         $('#scroll2').marquee({
             direction:'right',
-            // step:58,
-            interval:3000
+            interval:2000
         });
         $('#scroll3').marquee({
             direction:'down',
-            step:22,
-            interval:3000
+            step:1,
+            interval:20,
+            speed:0
         });
         $('#scroll4').marquee({
             direction:'up',
             step:22,
-            interval:3000
+            interval:2000
         });
     </script>
 </body>
