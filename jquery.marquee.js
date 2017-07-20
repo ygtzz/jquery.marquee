@@ -42,13 +42,23 @@
             $.fn.marquee.removeScroll($com);
             var counter = 0;
             var timerId = setInterval(function(){
+                if(opts.hoverPause && $scrollObj.data('pause')){
+                    return;
+                }
                 counter++;
                 if(opts.loop >0 && counter >= opts.loop){
                     clearInterval(timerId);
                 }
                 fScrollObj($scrollObj,step,itemWidth,scrollH,dir,len);
             },opts.interval);
-            $com.attr('data-timerid',timerId);
+            $scrollObj.attr('data-timerid',timerId)
+            if(opts.hoverPause){
+                $scrollObj.mouseover(function(){
+                        $(this).data("pause", true);
+                    }).mouseout(function(){
+                        $(this).data("pause", false);
+                    });
+            }
         });
 
         function fScrollObj($scrollObj,step,itemWidth,scrollH,dir,len){
@@ -84,11 +94,12 @@
     };
 
     $.fn.marquee.defaults = {
-        "direction":'left',
-        "step":'',
-        "interval":3000,
-        "speed": 500,
-        "loop":0
+        direction:'left',
+        step:'',
+        interval:3000,
+        speed: 500,
+        loop:0,
+        hoverPause:true
     }
 
     $.fn.marquee.removeScroll = function(comSelector){
