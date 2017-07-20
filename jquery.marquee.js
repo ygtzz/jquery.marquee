@@ -39,7 +39,7 @@
                     throw new Error('not support direction');
             }
             //先移除先前的timer，再开启新的timer
-            $.fn.marquee.removeScroll($com);
+            $.fn.marquee.removeScroll($scrollObj);
             var counter = 0;
             var timerId = setInterval(function(){
                 if(opts.hoverPause && $scrollObj.data('pause')){
@@ -102,8 +102,8 @@
         hoverPause:true
     }
 
-    $.fn.marquee.removeScroll = function(comSelector){
-        $(comSelector).each(function(i,item){
+    $.fn.marquee.removeScroll = function(scrollSelector){
+        $(scrollSelector).each(function(i,item){
             clearInterval($(item).attr('data-timerid'));
         });
     }
