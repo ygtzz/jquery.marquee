@@ -28,6 +28,7 @@
 - `interval`  the scroll interval
 - `speed`     the scroll speed every time
 - `loop`      the scroll times, 0 is infinite
+- `hoverPause` whether stop scroll when mouse hover, default is true
 
 ## License
 
