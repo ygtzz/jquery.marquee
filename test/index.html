@@ -6,13 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
-        /* 清除浮 动*/
         .fix { *zoom: 1; }
         .fix:after { display: table; content: ''; clear: both; }
         ul{list-style:none;padding-left:0}
         .mt30{margin-top:30px;padding-left:150px;}
         .scrollWrapper{overflow:hidden;border:1px solid #bcbcbc;}
-        #scroll1{width:100px;}
+        #scroll1{width:300px;}
         #scroll1 .item{float:left;padding:0 10px;}
         #scroll2 .item{float:left;padding:0 5px;}
 </style>
@@ -25,8 +24,8 @@
         <div id="scroll1" class="scrollWrapper">
             <ul class="list fix">
                 <li class="item">第一次</li>
-                <li class="item">第二次</li>
-                <li class="item">第三次</li>
+                <!-- <li class="item">第二次</li>
+                <li class="item">第三次</li> -->
             </ul>
         </div>
     </div>
@@ -79,7 +78,7 @@
             direction:'down',
             step:1,
             interval:20,
-            speed:0
+            spent:0
         });
         $('#scroll4').marquee({
             direction:'up',

@@ -64,7 +64,7 @@
         function fScrollObj($scrollObj,step,itemWidth,scrollH,dir,len){
             var aniObj = {};
             aniObj[dir] = '+=' + step;
-            $scrollObj.animate(aniObj,opts.speed,function(){
+            $scrollObj.animate(aniObj,opts.spent,function(){
                 switch(opts.direction){
                     case 'left':
                         if(parseInt($scrollObj.css('marginLeft')) <= -len*itemWidth){
@@ -97,7 +97,7 @@
         direction:'left',
         step:'',
         interval:3000,
-        speed: 500,
+        spent: 500,
         loop:0,
         hoverPause:true
     }

@@ -1,8 +1,6 @@
 # jquery.marquee
 
-## Usage
-
-### Quickstart
+## Quickstart
 
 ```html
 <style>
@@ -21,13 +19,13 @@
 </script>
 ```
 
-### params
+## params
 
 - `direction` left,right,up,down, default is left.
 - `step`      the scroll step every time
 - `interval`  the scroll interval
-- `speed`     the scroll speed every time
-- `loop`      the scroll times, 0 is infinite
+- `spent`     the time spent every scroll, default is 500ms
+- `loop`      the scroll times, 0 is infinite, default is infinite
 - `hoverPause` whether stop scroll when mouse hover, default is true
 
 ## License
