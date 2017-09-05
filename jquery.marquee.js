@@ -3,8 +3,8 @@
         init:function(options){
             var opts = $.extend({},$.fn.marquee.defaults, options);
             return this.each(function(){
-                var $com = $(this);
-                var $scrollObj = $com.children(':first-child'),
+                var $con = $(this);
+                var $scrollObj = $con.children(':first-child'),
                     scrollW = $scrollObj.width(),
                     scrollH = $scrollObj.height(),
                     $children = $scrollObj.children(),
@@ -12,33 +12,45 @@
                     itemHeight = scrollH / len,
                     itemWidth = $children.outerWidth();
     
-                $children.clone().prependTo($scrollObj);
                 var dir = (opts.direction == 'left'||opts.direction == 'right') ? 'marginLeft' : 'marginTop';
                 var step = opts.step;
                 switch (opts.direction) {
                     case 'left':
+                        if(step == 1 && $con.width() > len * itemWidth){
+                            return;
+                        }
                         $scrollObj.css({marginLeft:0,width:2*len*itemWidth});
-                        $com.css({width:len*itemWidth});
+                        $con.css({width:len*itemWidth});
                         step = -(step || itemWidth);
                         break;
                     case 'right':
+                        if(step == 1 && $con.width() > len * itemWidth){
+                            return;
+                        }
                         $scrollObj.css({marginLeft:-len*itemWidth,width:2*len*itemWidth});
-                        $com.css({width:len*itemWidth});
+                        $con.css({width:len*itemWidth});
                         step = step || itemWidth;                            
                         break;
                     case 'up':
+                        if(step == 1 && $con.height() > scrollH){
+                            return;
+                        }
                         $scrollObj.css({marginTop:0,height:2*scrollH}); 
-                        $com.css({height:scrollH});
+                        $con.css({height:scrollH});
                         step = -(step || itemHeight);                               
                         break;
                     case 'down':
+                        if(step == 1 && $con.height() > scrollH){
+                            return;
+                        }
                         $scrollObj.css({marginTop:-scrollH,height:2*scrollH});
-                        $com.css({height:scrollH}); 
+                        $con.css({height:scrollH}); 
                         step = step || itemHeight;                               
                         break;
                     default:
                         throw new Error('not support direction');
                 }
+                $children.clone().prependTo($scrollObj);                
                 //先移除先前的timer，再开启新的timer
                 $.fn.marquee.removeScroll($scrollObj);
                 var counter = 0;

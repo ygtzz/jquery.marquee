@@ -8,12 +8,13 @@
     <style>
         .fix { *zoom: 1; }
         .fix:after { display: table; content: ''; clear: both; }
-        ul{list-style:none;padding-left:0}
+        ul{list-style:none;padding-left:0;margin:0;}
         .mt30{margin-top:30px;padding-left:150px;}
         .scrollWrapper{overflow:hidden;border:1px solid #bcbcbc;}
-        #scroll1{width:300px;}
+        #scroll1{width:100px;}
         #scroll1 .item{float:left;padding:0 10px;}
         #scroll2 .item{float:left;padding:0 5px;}
+        #scroll3 {height:70px;}
 </style>
     <script src="../lib/jquery.min.js"></script>
     <script src="../jquery.marquee.js"></script>
@@ -24,8 +25,8 @@
         <div id="scroll1" class="scrollWrapper">
             <ul class="list fix">
                 <li class="item">第一次</li>
-                <!-- <li class="item">第二次</li>
-                <li class="item">第三次</li> -->
+                <li class="item">第二次</li>
+                <li class="item">第三次</li>
             </ul>
         </div>
     </div>
@@ -40,7 +41,7 @@
         </div>
     </div>
     <div class="mt30 bottom">
-        <h3>向下滚动</h3>
+        <h3>向下滚动(容器高度超出不滚动)</h3>
         <div id="scroll3" class="scrollWrapper">
             <ul class="list fix">
                 <li class="item">第一回</li>
@@ -65,7 +66,7 @@
             direction:'left',
             step:1,
             interval:20,
-            speed:0,
+            spent:0,
             hoverPause:false
             // loop:3
         });
