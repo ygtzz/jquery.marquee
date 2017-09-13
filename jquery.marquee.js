@@ -1,4 +1,36 @@
 ;(function ($){
+    var prefixer = (function(){
+        var prefixer = {},
+        oStyle = document.head.style,
+        aEvents = {
+            'transform': {
+                'transform': 'transform',
+                'webkitTransform': '-webkit-transform',
+                'MozTransform': '-moz-transform',
+                'msTransform': '-ms-transform',
+                'OTransform': '-o-transform'
+            }
+        },
+        fGetEvent = function(sEventName) {
+            sEventName = (sEventName || '').toLowerCase();
+            if (!aEvents[sEventName]) {
+                throw new Error('prefix: unkown event name ' + sEventName);
+            }
+            for (var p in aEvents[sEventName]) {
+                if (typeof(oStyle[p]) !== undefined) {
+                    return aEvents[sEventName][p];
+                }
+            }
+            return '';
+        };
+    
+        prefixer.transform = function(){
+            return fGetEvent('transform');
+        } 
+        
+        return prefixer;
+    })();
+
     var methods = {
         init:function(options){
             var opts = $.extend({},$.fn.marquee.defaults, options);
@@ -11,15 +43,18 @@
                     len = $children.length,
                     itemHeight = scrollH / len,
                     itemWidth = $children.outerWidth();
-    
-                var dir = (opts.direction == 'left'||opts.direction == 'right') ? 'marginLeft' : 'marginTop';
+                var cssTransform = prefixer.transform(),
+                    dir = cssTransform;
+                if(!dir){
+                    dir = (opts.direction == 'left'||opts.direction == 'right') ? 'marginLeft' : 'marginTop';
+                }
                 var step = opts.step;
                 switch (opts.direction) {
                     case 'left':
                         if(step == 1 && $con.width() > len * itemWidth){
                             return;
                         }
-                        $scrollObj.css({marginLeft:0,width:2*len*itemWidth});
+                        $scrollObj.css({dir:0,width:2*len*itemWidth});
                         $con.css({width:len*itemWidth});
                         step = -(step || itemWidth);
                         break;
@@ -27,7 +62,7 @@
                         if(step == 1 && $con.width() > len * itemWidth){
                             return;
                         }
-                        $scrollObj.css({marginLeft:-len*itemWidth,width:2*len*itemWidth});
+                        $scrollObj.css({dir:-len*itemWidth + 'px',width:2*len*itemWidth});
                         $con.css({width:len*itemWidth});
                         step = step || itemWidth;                            
                         break;
@@ -35,7 +70,7 @@
                         if(step == 1 && $con.height() > scrollH){
                             return;
                         }
-                        $scrollObj.css({marginTop:0,height:2*scrollH}); 
+                        $scrollObj.css({dir:0,height:2*scrollH}); 
                         $con.css({height:scrollH});
                         step = -(step || itemHeight);                               
                         break;
@@ -43,7 +78,7 @@
                         if(step == 1 && $con.height() > scrollH){
                             return;
                         }
-                        $scrollObj.css({marginTop:-scrollH,height:2*scrollH});
+                        $scrollObj.css({dir:-scrollH + 'px',height:2*scrollH});
                         $con.css({height:scrollH}); 
                         step = step || itemHeight;                               
                         break;
