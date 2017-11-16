@@ -31,7 +31,7 @@
 - `spent`     the time spent every scroll, default is 500ms
 - `loop`      the scroll times, 0 is infinite, default is infinite
 - `hoverPause` whether stop scroll when mouse hover, default is true
-
+- `stream` whether to start seamless scroll, the interval will be set to 1000/60
 
 ## License
 

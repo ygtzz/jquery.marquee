@@ -65,7 +65,8 @@
         $('#scroll1').marquee({
             direction:'left',
             step:1,
-            interval:20,
+            // interval:1000/60,
+            stream:true,
             spent:0,
             hoverPause:false
             // loop:3
@@ -78,7 +79,8 @@
         $('#scroll3').marquee({
             direction:'down',
             step:1,
-            interval:20,
+            // interval:1000/60,
+            stream:true,
             spent:0
         });
         $('#scroll4').marquee({

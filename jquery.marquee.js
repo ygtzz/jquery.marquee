@@ -55,18 +55,23 @@
                     len = $children.length,
                     itemHeight = scrollH / len,
                     itemWidth = $children.outerWidth();
+                if(opts.stream){
+                    opts.interval = 1000/60;
+                }
                 var dir = jsTransform;
                 if(!dir){
                     dir = (opts.direction == 'left'||opts.direction == 'right') ? 'marginLeft' : 'marginTop';
                 }
                 var step = opts.step;
+                //重新初始化时候不缓慢移动
+                fClearTransiton(scrollObj,jsTransiton);
                 switch (opts.direction) {
                     case 'left':
                         if(step == 1 && $con.width() > len * itemWidth){
                             return;
                         }
                         if(dir == jsTransform){
-                            scrollObj.style[jsTransform] = 'translate(0,0)';
+                            scrollObj.style[jsTransform] = 'translate(0,0) translateZ(0)';
                             $scrollObj.css({width:2*len*itemWidth});                            
                         }
                         else{
@@ -80,7 +85,7 @@
                             return;
                         }
                         if(dir == jsTransform){
-                            scrollObj.style[dir] = 'translate(' + (-len*itemWidth) + 'px,0)';
+                            scrollObj.style[dir] = 'translate(' + (-len*itemWidth) + 'px,0) translateZ(0)';
                             $scrollObj.css({width:2*len*itemWidth});
                         }
                         else{
@@ -94,7 +99,7 @@
                             return;
                         }
                         if(dir == jsTransform){
-                            scrollObj.style[dir] = 'translate(0,0)';
+                            scrollObj.style[dir] = 'translate(0,0) translateZ(0)';
                             $scrollObj.css({height:2*scrollH}); 
                         }
                         else{
@@ -108,7 +113,7 @@
                             return;
                         }
                         if(dir == jsTransform){
-                            scrollObj.style[dir] = 'translate(0,' + (-scrollH) + 'px)';
+                            scrollObj.style[dir] = 'translate(0,' + (-scrollH) + 'px) translateZ(0)';
                             $scrollObj.css({height:2*scrollH});
                         }
                         else{
@@ -155,7 +160,7 @@
                             offset = fGetTranslate(transform,'x');
                             if(offset <= -len*itemWidth){
                                 scrollObj.style[jsTransiton] = '';
-                                scrollObj.style[dir] = 'translate(0,0)';
+                                scrollObj.style[dir] = 'translate(0,0) translateZ(0)';
                                 offset = 0;
                             }
                             else{
@@ -167,7 +172,7 @@
                             offset = fGetTranslate(transform,'x');
                             if(offset >= 0){
                                 scrollObj.style[jsTransiton] = '';
-                                scrollObj.style[dir] = 'translate(' + -len*itemWidth + 'px,0)';
+                                scrollObj.style[dir] = 'translate(' + -len*itemWidth + 'px,0) translateZ(0)';
                                 offset = -len*itemWidth;
                             }
                             else{
@@ -179,7 +184,7 @@
                             offset = fGetTranslate(transform,'y');
                             if(offset <= -scrollH){
                                 scrollObj.style[jsTransiton] = '';
-                                scrollObj.style[dir] = 'translate(0,0)';
+                                scrollObj.style[dir] = 'translate(0,0) translateZ(0)';
                                 offset = 0;
                             }
                             else{
@@ -191,7 +196,7 @@
                             offset = fGetTranslate(transform,'y');
                             if(offset >= 0){
                                 scrollObj.style[jsTransiton] = '';
-                                scrollObj.style[dir] = 'translate(0,' + -scrollH + 'px)';
+                                scrollObj.style[dir] = 'translate(0,' + -scrollH + 'px) translateZ(0)';
                                 offset = -scrollH;
                             }
                             else{
@@ -236,13 +241,29 @@
             }
 
             function fScrollTransform(scrollObj,dir,offset,type){
-                scrollObj.style[jsTransiton] = 'all ' + opts.spent/1000 + 's';
+                fSetTransition(scrollObj,jsTransiton);
                 if(type == 'x'){
-                    scrollObj.style[dir] = 'translate(' + offset + 'px,0)';
+                    scrollObj.style[dir] = 'translate(' + offset + 'px,0) translateZ(0)';
                 }
                 else{
-                    scrollObj.style[dir] = 'translate(0,' + offset + 'px)';
+                    scrollObj.style[dir] = 'translate(0,' + offset + 'px) translateZ(0)';
                 }
+            }
+
+            function fSetTransition(scrollObj,jsTransiton){
+                if(opts.stream){
+                    // scrollObj.style['webkitTransitionTimingFunction'] = 'cubic-bezier(0.165, 0.84, 0.44, 1)';
+                    scrollObj.style['webkitTransitionDuration'] = '0ms';
+                }
+                else{
+                    scrollObj.style[jsTransiton] = 'all ' + opts.spent/1000 + 's';
+                }
+            }
+
+            function fClearTransiton(scrollObj,jsTransiton){
+                scrollObj.style[jsTransiton] = '';
+                // scrollObj.style['webkitTransitionTimingFunction'] = '';
+                scrollObj.style['webkitTransitionDuration'] = '';
             }
 
             function fGetTranslate(transform,type){
@@ -287,7 +308,8 @@
         interval:3000,
         spent: 500,
         loop:0,
-        hoverPause:true
+        hoverPause:true,
+        stream:false
     }
 
     $.fn.marquee.removeScroll = function(scrollSelector){
